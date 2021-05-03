@@ -49,6 +49,12 @@ module.exports = (err, req, res, next) => {
       message = 'Input invalid'
       break
 
+    case 'error_400_balance_not_enough':
+      statusCode = 400
+      errorCode = 'Validation error'
+      message = 'Your withdrawal has exceeded your balance'
+      break
+
     default:
       break
   }

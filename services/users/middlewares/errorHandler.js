@@ -23,7 +23,13 @@ module.exports = (err, req, res, next) => {
       statusCode = 400
       errorCode = 'Validation error'
       message = 'Wrong email or password'
-      break  
+      break
+
+    case 'error_404_user_not_found':
+      statusCode = 404
+      errorCode = 'Not Found'
+      message = 'Requested user was not found'
+      break
 
     default:
       break

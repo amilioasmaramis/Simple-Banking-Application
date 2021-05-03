@@ -3,12 +3,19 @@ const { hashing, compare } = require('../helpers/bcrypt.js')
 const { generateToken } = require('../helpers/jwt.js')
 
 class UserController {
+  // Register User
   static async register(req, res, next) {
     try {
       const { username, email, password } = req.body
       if (!username || !email || !password) throw { name: 'error_400_username_email_password_empty' }
       const passwordHashed = hashing(password)
-      const user = await User.insert({username, email, password: passwordHashed })
+      const user = await User.insert({
+        username, 
+        email, 
+        password: passwordHashed,
+        balance: 500000,
+        transaction: []
+      })
       console.log({
         user: user.ops[0],
         message: 'Add new User successfully'
@@ -21,7 +28,7 @@ class UserController {
       next(err)
     }
   }
-
+  // Login User
   static async login(req, res, next) {
     try {
       const { email, password } = req.body
@@ -46,9 +53,22 @@ class UserController {
       res.status(200).json({ 
         access_token, 
         id: user._id, 
-        username: user.username
+        username: user.username,
+        email: user.email
       })
     } catch (err) {
+      next(err)
+    }
+  }
+  // Get History All Transaction by User
+  static async findAllHistoryTransaction(req, res, next) {
+    try {
+      const { _id } = req.params
+      const user = await User.findHistoryByUserId(_id)
+      console.log(user, '<<<< Data User')
+      if (!user) throw { name: "error_404_user_not_found" }
+      res.status(200).json(user)
+    } catch(err) {
       next(err)
     }
   }
