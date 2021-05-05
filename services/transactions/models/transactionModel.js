@@ -8,10 +8,20 @@ class Transaction {
       .collection('transactions')
       .insertOne(payload)
   }
+  // Post Withdraw
   static postWithdraw(payload) {
     return getDatabase()
       .collection('transactions')
       .insertOne(payload)
+  }
+  // Get History All Transaction by UserId from Collection Transactions
+  static getHistoryTransactionByUserId(payload) {
+    return getDatabase()
+      .collection('transactions')
+      .find({
+        UserId: ObjectId(payload._id)
+      })
+      .toArray()
   }
 }
 

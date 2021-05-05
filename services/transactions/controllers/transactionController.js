@@ -22,6 +22,7 @@ class TransactionController {
       console.log(user, '<<<<< get user by email')
 
       const dataDeposit =  await Transaction.postDeposit({
+        UserId: user._id,
         deposit,
         message: `Successfully deposit your saldo with ${deposit}`,
         tanggalTransaksi: date.toLocaleTimeString("en-us", options)
@@ -34,6 +35,7 @@ class TransactionController {
         transaction: user.transaction.concat(dataDeposit.ops[0])
       })
       console.log(updateUser, "<<<< update balance user from controller")
+
       res.status(201).json({
         UserId: user._id,
         username: user.username,
@@ -52,16 +54,20 @@ class TransactionController {
       const { withdraw } = req.body
       const { email } = req.user
 
+      if (!withdraw) throw { name: "error_400_body_invalid"}
+
       const user = await User.findOne(email)
       console.log(user, '<<<<< get user by email')
 
       const dataWithdraw =  await Transaction.postWithdraw({
+        UserId: user._id,
         withdraw,
         message: `Successfully withdraw your saldo with ${withdraw}`,
         tanggalTransaksi: date.toLocaleTimeString("en-us", options)
       })
       console.log(dataWithdraw.ops[0], `<<<< deposit saldo`)
-      console.log(user.balance - dataWithdraw.ops[0].withdraw < user.balance, user.balance, '<tanda')
+      console.log(user.balance - dataWithdraw.ops[0].withdraw < user.balance, user.balance, '<<<< conditional statement')
+
       if (user.balance - dataWithdraw.ops[0].withdraw < 0) {
         throw { name: "error_400_balance_not_enough"}
       } else {
@@ -71,6 +77,7 @@ class TransactionController {
           transaction: user.transaction.concat(dataWithdraw.ops[0])
         })
         console.log(updateUser, "<<<< update balance user from controller")
+        
         res.status(201).json({
           UserId: user._id,
           username: user.username,
@@ -79,6 +86,15 @@ class TransactionController {
           message: `Sucessfully withdraw with ${withdraw} from your account`
         })
       }
+    } catch(err) {
+      next(err)
+    }
+  }
+  // Get History All Transaction by UserId from Collection Transactions
+  static async getHistoryTransactionByUserId(req, res, next) {
+    try {
+      const data = await Transaction.getHistoryTransactionByUserId({ _id: req.user._id})
+      res.status(200).json({ data })
     } catch(err) {
       next(err)
     }

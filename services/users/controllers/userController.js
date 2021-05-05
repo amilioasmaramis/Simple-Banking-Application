@@ -52,7 +52,7 @@ class UserController {
       }, 'login user from controller')
       res.status(200).json({ 
         access_token, 
-        id: user._id, 
+        _id: user._id, 
         username: user.username,
         email: user.email
       })

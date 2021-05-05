@@ -10,6 +10,7 @@ List of available endpoints:
 ​
 - `POST /users/register`
 - `POST /users/login`
-- `GET /budget/:_id`
+- `GET /users/:_id`
 - `POST /transactions/deposit`
 - `POST /transactions/withdraw`
+- `GET /transactions/history

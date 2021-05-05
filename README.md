@@ -29,6 +29,16 @@ pm2 log
 pm2 stop ecosystem.config.js
 ```
 
+- If u using a windows, i prefer follow the step
+```
+1. Go to the root folder
+- For example: ..Home/Simple-Banking-Application
+2. Open the terminal
+3. npm install
+4. npm run dev
+- This will be automatically run 2 services user and transaction
+```
+
 ### Service User run on : http://localhost:9001
 
 ### Service Transactions run on : http://localhost:10001

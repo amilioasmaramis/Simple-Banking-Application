@@ -1,0 +1,25 @@
+{
+  "name": "Simple-Banking-Application",
+  "version": "1.0.0",
+  "description": "Project REST API For A Simple Banking Application using NodeJS (Javascript) and Apollo GraphQL",
+  "main": "ecosystem.config.js",
+  "scripts": {
+    "user": "cd services/users && npm install && npm run dev",
+    "transaction": "cd services/transactions && npm install && npm run dev",
+    "dev": "concurrently --kill-others \"npm run user\" \"npm run transaction\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amilioasmaramis/Simple-Banking-Application.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amilioasmaramis/Simple-Banking-Application/issues"
+  },
+  "homepage": "https://github.com/amilioasmaramis/Simple-Banking-Application#readme",
+  "devDependencies": {
+    "concurrently": "^6.0.2"
+  }
+}
